@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->char('uid', 8)->unique()->comment('UID 8 digit random untuk share');
+            $table->string('username', 50)->unique()->comment('Handle unik, case-insensitive');
+            $table->string('name', 100)->comment('Display name');
+            $table->string('email', 255)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password', 255)->comment('bcrypt hash');
+            $table->string('avatar_path', 255)->nullable();
+            $table->timestamp('last_seen_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
