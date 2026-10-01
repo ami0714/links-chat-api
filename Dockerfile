@@ -29,4 +29,4 @@ EXPOSE 8080
 
 # Jalankan server
 # Tukar baris CMD asal kepada ini:
-CMD php artisan storage:link --force && php artisan serve --host=0.0.0.0 --port=8080
+CMD  php artisan serve --host=0.0.0.0 --port=8080 && php artisan reverb:start
