@@ -1,5 +1,6 @@
 FROM php:8.4-cli-alpine
 
+# 1. Install system dependencies
 RUN apk add --no-cache \
     libpng-dev \
     libjpeg-turbo-dev \
@@ -11,7 +12,7 @@ RUN apk add --no-cache \
     git \
     bash \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install pdo pdo_mysql zip gd
+    && docker-php-ext-install pdo pdo_mysql zip gd pcntl
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
