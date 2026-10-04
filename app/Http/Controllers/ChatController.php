@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Chat\CreateConversationRequest;
+use App\Http\Requests\Chat\GetConversationChatRequest;
+use App\Http\Requests\Chat\SendMessageRequest;
 use Illuminate\Http\Request;
 use App\Service\ChatService;
 use Illuminate\Http\JsonResponse;
@@ -43,9 +46,10 @@ class ChatController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function getConversationChat(Request $request,$conversationId)
+    public function getConversationChat(GetConversationChatRequest $request, string $conversationId)
     {
         $userId = request()->user()->id;
+        $conversationId = $request->validated('conversationId');
 
         $chatConversation = $this->chatService->getConversationChat($userId, $conversationId);
 
@@ -59,10 +63,12 @@ class ChatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function messageHandler(Request $request,$conversationId)
+    public function messageHandler(SendMessageRequest $request, string $conversationId)
     {
         $userId = request()->user()->id;
-        $bodyMessage = $request->input('message');
+        $validated = $request->validated();
+        $conversationId = $validated['conversationId'];
+        $bodyMessage = $validated['message'];
 
         $insertMessage = $this->chatService->messageHandler($userId,$conversationId,$bodyMessage);
 
@@ -76,11 +82,12 @@ class ChatController extends Controller
     }
 
     
-    public function createConversation(Request $request)
+    public function createConversation(CreateConversationRequest $request)
     {
         $userId = request()->user()->id;
-        $otherUserUid = $request->query('uid');
-        $message = $request->input('message');
+        $validated = $request->validated();
+        $otherUserUid = $validated['uid'];
+        $message = $validated['message'] ?? null;
 
         $createConversation = $this->chatService->createConversation($userId, $otherUserUid, $message);
 

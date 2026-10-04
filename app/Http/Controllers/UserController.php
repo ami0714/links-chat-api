@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\GetOtherUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -31,9 +32,9 @@ class UserController extends Controller
     }
 
     
-    public function getOtherUser(Request $request):JsonResponse
+    public function getOtherUser(GetOtherUserRequest $request):JsonResponse
     {
-        $otherUserUid = $request->query('uid');
+        $otherUserUid = $request->validated('uid');
 
         $otherUser = DB::selectOne(
             'SELECT uid, username, name, avatar_path FROM users WHERE uid = :uid',
