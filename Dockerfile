@@ -23,10 +23,4 @@ RUN chmod -R 777 storage bootstrap/cache
 
 EXPOSE 8080
 
-<<<<<<< HEAD
-# Jalankan server
-# Tukar baris CMD asal kepada ini:
-CMD  php artisan serve --host=0.0.0.0 --port=8080 && php artisan reverb:start
-=======
 CMD php artisan serve --host=0.0.0.0 --port=8080
->>>>>>> a46464244ac02993d6e22088658e7cac88f45a68
